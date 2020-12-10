@@ -5,7 +5,6 @@ import org.graphstream.stream.file.FileSource;
 import org.graphstream.stream.file.FileSourceEdge;
 
 import java.io.IOException;
-import java.util.Locale;
 
 public class Mesure {
     private final Graph g;
@@ -68,13 +67,13 @@ public class Mesure {
 
         for (int k = 0; k < dd.length; k++)
             if (dd[k] != 0)
-                stringBuilder.append(String.format("%6d%20.8f%n", k, (double) dd[k] / getNode()));
+                stringBuilder.append(String.format("%6d%20.8f%n", k, ((double) dd[k] / getNode())));
         Utils.saveFile(getNameFile(), stringBuilder.toString());
     }
 
     public static void main(String[] args) {
         System.setProperty("org.graphstream.ui", "swing");
-        System.out.println("Début du programme");
+
         /** Exercice 1 */
         System.out.println("\nExercice 1\n");
         System.out.println("Création du graphe ...");
@@ -101,8 +100,6 @@ public class Mesure {
 
         /** Exercice 4 */
         // Distribution des degrés
-        //System.out.println("Probabilité qu'un noeud au hasard est un degré k ?: " + Arrays.toString(mesure.degreeDistribution()));
-
         mesure.degreeDistribution();
     }
 }
