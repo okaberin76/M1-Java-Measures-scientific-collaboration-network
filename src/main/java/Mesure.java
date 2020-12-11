@@ -30,7 +30,7 @@ public class Mesure {
         FileSource fs = new FileSourceEdge(true);
         fs.addSink(this.graph);
         try {
-            fs.readAll("./src/main/files/com-dblp.ungraph.txt");
+            fs.readAll("./src/main/resources/com-dblp.ungraph.txt");
         } catch (IOException e) {
             System.out.println("No such file");
             System.exit(1);
@@ -158,10 +158,10 @@ public class Mesure {
 
         // Exercice 4
         // Distribution des degrés
-        mesure.degreeDistribution("./src/main/resources/fichierDistributionDegree.dat");
+        mesure.degreeDistribution("./src/main/files/fichierDistributionDegree.dat");
 
         // Exercice 5
-        mesure.distribution(1000, "./src/main/resources/fichierDistributionDistance.dat");
+        mesure.distribution(1000, "./src/main/files/fichierDistributionDistance.dat");
          */
 
         // Exercice 6 -> 11 min à run
@@ -185,12 +185,12 @@ public class Mesure {
         // Connexité
         System.out.println("\nRéseau connexe:\n" + "Default -> " + mesure.isConnected() + "\nRandom -> " + mesure2.isConnected() + "\nBarabasi -> " + mesure3.isConnected());
         // Distribution des degrés
-        mesure.degreeDistribution("./src/main/resources/fichierDistributionDegree_Default.dat");
-        mesure2.degreeDistribution("./src/main/resources/fichierDistributionDegree_Random.dat");
-        mesure3.degreeDistribution("./src/main/resources/fichierDistributionDegree_Barabasi.dat");
+        mesure.degreeDistribution("./src/main/files/fichierDistributionDegree_Default.dat");
+        mesure2.degreeDistribution("./src/main/files/fichierDistributionDegree_Random.dat");
+        mesure3.degreeDistribution("./src/main/files/fichierDistributionDegree_Barabasi.dat");
         // Distribution des distances
-        mesure.distribution(1000, "./src/main/resources/fichierDistributionDistance_Default.dat");
-        mesure2.distribution(1000, "./src/main/resources/fichierDistributionDistance_Random.dat");
-        mesure3.distribution(1000, "./src/main/resources/fichierDistributionDistance_Barabasi.dat");
+        mesure.distribution(1000, "./src/main/files/fichierDistributionDistance_Default.dat");
+        mesure2.distribution(1000, "./src/main/files/fichierDistributionDistance_Random.dat");
+        mesure3.distribution(1000, "./src/main/files/fichierDistributionDistance_Barabasi.dat");
     }
 }
