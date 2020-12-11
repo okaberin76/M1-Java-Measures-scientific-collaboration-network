@@ -22,7 +22,7 @@ L'utilisation de méthodes déjà implémentées par GraphStream nous permet de 
 * Coefficient de clustering: 0.6324308280637396
 
 Voici la formule pour calculer le coefficient de clustering pour un réseau aléatoire:
-![coefficientClusteringRA](Pictures/coefficientClusteringRA.PNG)
+![coefficientClusteringRA](src/main/pictures/coefficientClusteringRA.PNG)
 
 Ce qui nous donne: p = 6.62208890914917 / 317 080 = 2,0884599814397533745427021571843e-5.
 
@@ -35,7 +35,7 @@ nous retourne true, il est donc bien connexe.
 
 Pour trouver si un réseau aléatoire de la même taille et degré moyen est connexe, on utilise la formule suivante:  
 
-![ConnexiteRA](Pictures/ConnexiteRA.PNG)
+![ConnexiteRA](src/main/pictures/ConnexiteRA.PNG)
 
 D'où ln(317080) = 12.67.
 

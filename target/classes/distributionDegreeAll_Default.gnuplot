@@ -1,7 +1,7 @@
 set terminal png
 set xlabel 'k'
 set ylabel 'p(k)'
-set output 'distributionDegresAll.png'
+set output 'distributionDegresAll_Default.png'
 set key top right
 
 set logscale xy
@@ -13,9 +13,9 @@ poisson(k) = lambda ** k * exp(-lambda) / gamma(k + 1)
 
 # Fit une fonction linéaire en log-log
 f(x) = lc - gamma * x
-fit f(x) 'fichierDistributionDegree.dat' using (log($1)):(log($2)) via lc, gamma
+fit f(x) 'fichierDistributionDegree_Default.dat' using (log($1)):(log($2)) via lc, gamma
 
 c = exp(lc)
 power(k) = c * k ** (-gamma)
 
-plot 'fichierDistributionDegree.dat' title 'Distribution des degrés', poisson(x) title 'Loi de Poisson', power(x) title 'Loi de puissance'
+plot 'fichierDistributionDegree_Default.dat' title 'Distribution des degrés', poisson(x) title 'Loi de Poisson', power(x) title 'Loi de puissance'
