@@ -18,8 +18,8 @@ avec ceux obtenus via un générateur de graphe aléatoire et un générateur de
 ## Question 2. Prenez quelques mesures de base: nombre de nœuds et de liens, degré moyen, coefficient de clustering.
 
 L'utilisation de méthodes déjà implémentées par GraphStream nous permet de prendre quelques mesures de base:
-* Nombre de nœuds: 317080
-* Nombre de liens: 1049866
+* Nombre de nœuds: 317 080
+* Nombre de liens: 1 049 866
 * Degré moyen: 6.62208890914917
 * Coefficient de clustering: 0.6324308280637396
 
@@ -96,13 +96,16 @@ Enfin, voici la distribution des degrés avec la loi de Poisson et la loi de Pui
 
 On peut très facilement remarquer que la distribution des degrés tend à suivre la loi de Puissance.
 
+***
+
 ## Question 5. Maintenant on va calculer la distance moyenne dans le réseau. On va estimer la distance moyenne par échantillonnage en faisant un parcours en largeur à partir de 1000 sommets choisis au hasard.
 
 Voici la formule du calcul de la distance moyenne dans un réseau:
 
 ![distanceMoyenne](src/main/pictures/distanceMoyenne.PNG)
 
-En prenant 1000 sommets aléatoirement, on obtient les résultats suivants selon le type de graphe (défaut, random et barabasi):
+En prenant 1000 sommets aléatoirement, on obtient les résultats suivants selon le type de graphe (collaboration, aléatoire
+et barabasi):
 
 ![distanceMoyenneAll](src/main/pictures/distanceMoyenneAll.PNG)
 
@@ -146,6 +149,8 @@ Voici les différents graphiques de la distribution des distances, selon le type
 ## Formulez une hypothèse sur la loi de cette distribution.
 
 La loi de distribution des distances se rapproche, dans la forme, d'une loi de Poisson.
+
+***
 
 ## Question 6. Refaites les mesures des questions précédentes pour ces deux réseaux.
 
