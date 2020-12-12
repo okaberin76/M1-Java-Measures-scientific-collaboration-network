@@ -179,7 +179,7 @@ public class Mesure {
         mesure.distribution(1000, "./src/main/files/fichierDistributionDistance.dat");
          */
 
-        // Exercice 6 -> 11 min à run
+        // Exercice 6 -> environ 10 min à run
         System.out.println("Exercice 6\n");
         // Graphe par défaut, c'est à dire celui du fichier com-dblp.ungraph.txt
         Mesure mesure = new Mesure(0);
