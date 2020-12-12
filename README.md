@@ -26,6 +26,7 @@ L'utilisation de méthodes déjà implémentées par GraphStream nous permet de 
 ## Quel sera le coefficient de clustering pour un réseau aléatoire de la même taille et du même degré moyen ?
 
 Voici la formule pour calculer le coefficient de clustering pour un réseau aléatoire:
+
 ![coefficientClusteringRA](src/main/pictures/coefficientClusteringRA.PNG)
 
 Ce qui nous donne p = 6.62208890914917 / 317 080 = 2,0884599814397533745427021571843E-5, c'est-à-dire environ 
