@@ -16,6 +16,9 @@ public class Mesure {
     private Graph graph;
     private String nameFile;
 
+    /**
+     * @param choice un entier qui défini le type de graphe voulu
+     */
     public Mesure(int choice) {
         switch (choice) {
             case 0 -> defaultGraph();
@@ -25,6 +28,9 @@ public class Mesure {
         }
     }
 
+    /**
+     * Construit le graphe de collaboration
+     */
     public void defaultGraph() {
         this.graph = new DefaultGraph("Default");
         FileSource fs = new FileSourceEdge(true);
@@ -39,6 +45,9 @@ public class Mesure {
         }
     }
 
+    /**
+     * Construit un graphe aléatoire ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
+     */
     public void randomGraph() {
         this.graph = new SingleGraph("Random");
         Generator gen = new RandomGenerator(6.62208890914917);
@@ -49,6 +58,9 @@ public class Mesure {
         gen.end();
     }
 
+    /**
+     * Construit un graphe de type Barabasi-Albert ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
+     */
     public void barabasiGraph() {
         this.graph = new SingleGraph("Barabasi");
         Generator gen = new BarabasiAlbertGenerator((int) 6.62208890914917);
@@ -143,8 +155,8 @@ public class Mesure {
 
         // Exercice 2
         System.out.println("\nExercice 2\n");
-        // Noeuds
-        System.out.println("Nombre de noeuds: " + mesure.getNode());
+        // nœuds
+        System.out.println("Nombre de nœuds: " + mesure.getNode());
         // Liens
         System.out.println("Nombre de liens: " + mesure.getEdge());
         // Degré moyen
@@ -175,8 +187,8 @@ public class Mesure {
         Mesure mesure2 = new Mesure(1);
         // Graphe Barabasi-Albert
         Mesure mesure3 = new Mesure(2);
-        // Noeuds
-        System.out.println("Nombre de noeuds:\n" + "Default -> " + mesure.getNode() + "\nRandom -> " + mesure2.getNode() + "\nBarabasi -> " + mesure3.getNode());
+        // nœuds
+        System.out.println("Nombre de nœuds:\n" + "Default -> " + mesure.getNode() + "\nRandom -> " + mesure2.getNode() + "\nBarabasi -> " + mesure3.getNode());
         // Liens
         System.out.println("\nNombre de liens:\n" + "Default -> " + mesure.getEdge() + "\nRandom -> " + mesure2.getEdge() + "\nBarabasi -> " + mesure3.getEdge());
         // Degré moyen

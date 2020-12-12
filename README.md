@@ -162,7 +162,7 @@ Les résultats obtenus correspondent aux prédictions théoriques. Nous allons l
 
 * **Nombre de nœuds**
 
-Pour les trois graphes, le nombre nombre de nœuds est similaire → environ 317 000.
+Pour les trois graphes, le nombre de nœuds est similaire → environ 317 000.
 
 * **Nombre de liens**
 
