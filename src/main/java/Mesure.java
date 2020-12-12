@@ -106,27 +106,30 @@ public class Mesure {
         Utils.saveFile(getNameFile(), stringBuilder.toString());
     }
 
-    public double[] distributionDistance(int n) {
+    public double[] distanceDistribution(int n) {
         List<Node> randomSet = Toolkit.randomNodeSet(getGraph(), n);
         double[] tab = new double[50];
+        double sum = 0;
 
         for(int i = 0; i < n; i++) {
-            BreadthFirstIterator k = (BreadthFirstIterator)randomSet.get(i).getBreadthFirstIterator();
+            BreadthFirstIterator k = (BreadthFirstIterator) randomSet.get(i).getBreadthFirstIterator();
             while (k.hasNext()) {
                 Node next = k.next();
                 tab[k.getDepthOf(next)]++;
+                sum += k.getDepthOf(next);
             }
         }
+        System.out.println("La distance moyenne est: " + sum / (n * (getNode())));
         return tab;
     }
 
     public void distribution(int n, String nameFile) {
-        double[] tab = distributionDistance(n);
+        double[] tab = distanceDistribution(n);
         setNameFile(nameFile);
         StringBuilder stringBuilder = new StringBuilder();
 
         for(int i = 0; i < tab.length; i++)
-            stringBuilder.append(String.format("%d%s%f%s", i, " ", tab[i] / (getGraph().getNodeCount() * 1000), "\n"));
+            stringBuilder.append(String.format("%d%s%f%s", i, " ", tab[i] / (getNode() * 1000), "\n"));
         Utils.saveFile(getNameFile(), stringBuilder.toString());
     }
 

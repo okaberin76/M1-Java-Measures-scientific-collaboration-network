@@ -3,7 +3,7 @@ set xlabel 'k'
 set ylabel 'p(k)'
 set output 'distributionDegresAll_Random.PNG'
 set title 'Distribution des degrés - Random'
-set key top right
+set key bottom center
 
 set logscale xy
 set yrange [1e-6:1]
