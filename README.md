@@ -207,3 +207,47 @@ nous pouvons remarquer que la distribution est plutot similaire entre un réseau
 
 Pour notre réseau de collaboration, cette distribution est totalement différente et tend à suivre légèrement la loi de 
 Poisson.
+
+***
+
+## TP Propagation dans des réseaux
+
+***
+
+## Introduction
+
+Ce TP est la suite directe du précédent sur les mesures de réseaux d'intéraction. Ici, on va s'intéresser à la propagation
+d'un virus dans les différents types de réseaux étudiés (SNAP, aléatoire et Barasi).
+
+***
+
+## Question 1. Quel est le taux de propagation du virus ? Quel est le seuil épidémique du réseau ? 
+
+* Le taux de propagation du virus se calcule de la manière suivante:
+
+![tauxPropagation](src/main/pictures/tauxPropagation.PNG) avec Beta = 1 / 7 et Mu = 1 / 14.
+
+On obtient 2.0 comme résultat.
+
+* Le seuil épidémique du réseau se calcule de la manière suivante:
+
+![seuilEpidemiqueDefault](src/main/pictures/seuilEpidemiqueDefault.PNG) où <k> = 6.62208890914917 et <k²> = 144.
+
+On obtient 0.04598672853575812.
+
+## Comparez avec le seuil théorique d'un réseau aléatoire du même degré moyen.
+
+Le seuil théorique d'un réseau aléatoire se calcule comme ceci:
+
+![seuilEpidemiqueRandom](src/main/pictures/seuilEpidemiqueRandom.PNG)
+
+On obtient le résultat suivant: 0.13113826580493956.
+
+Les calculs sont vérifiés pendant l'exécution du programme:
+
+![question1](src/main/pictures/question1.PNG)
+
+***
+
+## Question 2. Pour chacun des trois scénarios, tracez l'évolution de la fraction d'infectés de la population non immunisée. Que peut-on conclure ?
+
