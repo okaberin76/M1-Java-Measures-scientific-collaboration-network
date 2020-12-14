@@ -73,7 +73,7 @@ public void degreeDistribution(String nameFile) {
     for(int k = 0; k < p.length; k++)
         if (p[k] != 0)
             stringBuilder.append(String.format("%6d%20.8f%n", k, ((double) p[k] / getNode())));
-        Utils.saveFile(getNameFile(), stringBuilder.toString());
+        RI_package.Utils.saveFile(getNameFile(), stringBuilder.toString());
 }
 ```
 
@@ -149,7 +149,8 @@ Voici les différents graphiques de la distribution des distances, selon le type
 
 ## Formulez une hypothèse sur la loi de cette distribution.
 
-La loi de distribution des distances se rapproche, dans la forme, d'une loi de Poisson.
+La loi de distribution des distances se rapproche, dans la forme, d'une cloche. Son point culminant (sommet) représente
+la valeur du plus grand nombre de nœuds partageant une distance avec un autre nœud.
 
 ***
 

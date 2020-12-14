@@ -1,15 +1,10 @@
+package RI_package;
+
 import org.graphstream.algorithm.Toolkit;
-import org.graphstream.algorithm.generator.BarabasiAlbertGenerator;
-import org.graphstream.algorithm.generator.Generator;
-import org.graphstream.algorithm.generator.RandomGenerator;
 import org.graphstream.graph.BreadthFirstIterator;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.DefaultGraph;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.stream.file.FileSource;
-import org.graphstream.stream.file.FileSourceEdge;
-import java.io.IOException;
+
 import java.util.List;
 
 public class Mesure {
@@ -21,54 +16,11 @@ public class Mesure {
      */
     public Mesure(int choice) {
         switch (choice) {
-            case 0 -> defaultGraph();
-            case 1 -> randomGraph();
-            case 2 -> barabasiGraph();
+            case 0 -> this.graph = CreateGraph.defaultGraph();
+            case 1 -> this.graph = CreateGraph.randomGraph();
+            case 2 -> this.graph = CreateGraph.barabasiGraph();
             default -> System.exit(1);
         }
-    }
-
-    /**
-     * Construit le graphe de collaboration
-     */
-    public void defaultGraph() {
-        this.graph = new DefaultGraph("Default");
-        FileSource fs = new FileSourceEdge(true);
-        fs.addSink(this.graph);
-        try {
-            fs.readAll("./src/main/resources/com-dblp.ungraph.txt");
-        } catch (IOException e) {
-            System.out.println("No such file");
-            System.exit(1);
-        } finally {
-            fs.removeSink(this.graph);
-        }
-    }
-
-    /**
-     * Construit un graphe aléatoire ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
-     */
-    public void randomGraph() {
-        this.graph = new SingleGraph("Random");
-        Generator gen = new RandomGenerator(6.62208890914917);
-        gen.addSink(this.graph);
-        gen.begin();
-        for(int i = 0; i < 317073; i++)
-            gen.nextEvents();
-        gen.end();
-    }
-
-    /**
-     * Construit un graphe de type Barabasi-Albert ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
-     */
-    public void barabasiGraph() {
-        this.graph = new SingleGraph("Barabasi");
-        Generator gen = new BarabasiAlbertGenerator((int) 6.62208890914917);
-        gen.addSink(this.graph);
-        gen.begin();
-        for(int i = 0; i < 317073; i++)
-            gen.nextEvents();
-        gen.end();
     }
 
     public String getNameFile() {
@@ -151,7 +103,7 @@ public class Mesure {
 
         // Exercice 1
         // Graphe par défaut, c'est à dire celui du fichier com-dblp.ungraph.txt
-        Mesure mesure = new Mesure(0);
+        RI_package.Mesure mesure = new RI_package.Mesure(0);
 
         // Exercice 2
         System.out.println("\nExercice 2\n");
