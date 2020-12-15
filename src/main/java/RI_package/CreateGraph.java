@@ -38,7 +38,7 @@ public class CreateGraph {
         Generator gen = new RandomGenerator(6.62208890914917);
         gen.addSink(graph);
         gen.begin();
-        for(int i = 0; i < 317073; i++)
+        for(int i = 0; i < 317080; i++)
             gen.nextEvents();
         gen.end();
         return graph;
@@ -52,7 +52,7 @@ public class CreateGraph {
         Generator gen = new BarabasiAlbertGenerator((int) 6.62208890914917);
         gen.addSink(graph);
         gen.begin();
-        for(int i = 0; i < 317073; i++)
+        for(int i = 0; i < 317080; i++)
             gen.nextEvents();
         gen.end();
         return graph;
