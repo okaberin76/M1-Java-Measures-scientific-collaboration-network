@@ -231,7 +231,7 @@ On obtient 2.0 comme résultat.
 
 * Le seuil épidémique du réseau se calcule de la manière suivante:
 
-![seuilEpidemiqueDefault](src/main/pictures/seuilEpidemiqueDefault.PNG) où <k> = 6.62208890914917 et <k²> = 144.
+![seuilEpidemiqueDefault](src/main/pictures/seuilEpidemiqueDefault.PNG) où < k > = 6.62208890914917 et < k² > = 144.
 
 On obtient 0.04598672853575812.
 

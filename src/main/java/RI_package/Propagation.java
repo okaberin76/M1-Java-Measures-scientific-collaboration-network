@@ -5,22 +5,42 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Propagation {
     private Graph graph;
-    private int infected, healed;
-    int[] tabInfected;
+    private int infected;
+    private String nameFile;
     private final double beta = (double) 1 / 7;
     private final double mu = (double) 1 / 14;
 
-    public Propagation(int choice) {
+    public Propagation(int choice, int scenario) {
         switch (choice) {
             case 0 -> this.graph = CreateGraph.defaultGraph();
             case 1 -> this.graph = CreateGraph.randomGraph();
             case 2 -> this.graph = CreateGraph.barabasiGraph();
             default -> System.exit(1);
         }
-        this.healed = 0;
         this.infected = 0;
+
+        for(Node n : getGraph())
+            n.setAttribute("Immune", "False");
+
+        switch(scenario) {
+            case 1 -> { }
+            case 2 -> scenario2();
+            case 3 -> scenario3();
+            default -> System.exit(1);
+        }
+    }
+
+    public String getNameFile() {
+        return nameFile;
+    }
+
+    public void setNameFile(String nameFile) {
+        this.nameFile = nameFile;
     }
 
     public double averageDegree() {
@@ -62,76 +82,145 @@ public class Propagation {
         return this.infected;
     }
 
-    public int getNbHealed() {
-        return this.healed;
+    // 50% des nœuds deviennent immunisés, tirage effectué aléatoirement
+    public void scenario2() {
+        int compteur = 0;
+        // On prend 50% des nœuds
+        while(compteur < getNode() / 2) {
+            // On choisi un nœud aléatoirement
+            int random = (int) (Math.random() * getNode());
+            Node node = getGraph().getNode(random);
+            // On rend ce nœud immunisé si il ne l'était pas déjà
+            if(node.getAttribute("Immune").equals("False")) {
+                node.setAttribute("Immune" , "True");
+                compteur++;
+            }
+        }
     }
 
-    public void propagation(int dayMax) {
-        this.tabInfected = new int[dayMax];
-        // Noeud source infecté
+    // 50% des nœuds ont une de leurs arêtes immunisée
+    public void scenario3() {
+        int compteur = 0;
+        // On prend 50% des nœuds
+        while(compteur < getNode() / 2) {
+            // On choisi un nœud aléatoirement
+            int random = (int) (Math.random() * getNode());
+            Node node = getGraph().getNode(random);
+            // On choisi une arête aléatoire du nœud trouvé
+            Edge edge = Toolkit.randomEdge(node);
+            if (edge != null) {
+                // On récupère le nœud au bout de l'arête
+                Node u = edge.getOpposite(node);
+                // On rend ce nœud immunisé si il ne l'était pas déjà
+                if(node.getAttribute("Immune").equals("False")) {
+                    u.setAttribute("Immune" , "True");
+                    compteur++;
+                }
+            }
+        }
+    }
+
+    public void propagation(int dayMax, String nameFile) {
+        setNameFile(nameFile);
+
+        // Noeud source infecté et non immunisé
         Node infecte0 = getGraph().getNode(0);
-        infecte0.setAttribute("infected");
+        infecte0.setAttribute("Infected");
+        infecte0.setAttribute("Immune", "False");
         this.infected++;
 
-        this.tabInfected[0] = getNbInfected();
-        System.out.println("Day: " + 0 + " | Infected: " + this.tabInfected[0]);
-
+        StringBuilder stringBuilder = new StringBuilder();
+        // Selon le nombre de jours, on va propager le virus à travers le graphe
         for(int i = 1; i < dayMax; i++) {
             infection();
-            this.tabInfected[i] = getNbInfected();
-            //System.out.println("Day: " + i + " | Infected: " + getNbInfected() + " | Healed: " + getNbHealed());
+            stringBuilder.append(String.format("%d%s%d%s", i, " ", getNbInfected(), "\n"));
         }
+        Utils.saveFile(getNameFile(), stringBuilder.toString());
         affichePercentage();
     }
 
     public void infection() {
-        // Pour chaque noeud infectés v
+        // Pour chaque nœud infectés v
         for(Node v : getGraph()) {
-            if(v.hasAttribute("infected")) {
-                // Pour chaque voisin u de v qui n'est pas infecté
+            if(v.hasAttribute("Infected")) {
+                // Pour chaque voisin u de v
                 for(Edge u : v) {
-                    if (!u.getOpposite(v).hasAttribute("infected")) {
+                    // On récupère le nœud u
+                    Node node = u.getOpposite(v);
+                    // Si ce nœud n'est pas déjà infecté ni immunisé
+                    if (!node.hasAttribute("Infected") && node.getAttribute("Immune").equals("False")) {
                         // Nombre aléatoire entre 0 et 1
                         if(Math.random() < this.beta) {
-                            // v envoie un mail à u aujourd'hui
-                            u.getOpposite(v).setAttribute("infected");
+                            // v envoie un mail à u aujourd'hui et l'infecte
+                            node.setAttribute("Infected");
                             this.infected++;
                         }
                     }
                 }
+                // Nombre aléatoire entre 0 et 1
                 if(Math.random() < this.mu) {
-                    v.removeAttribute("infected");
-                    v.setAttribute("healed");
+                    // Anti virus actif -> le nœud est soigné
+                    v.removeAttribute("Infected");
+                    v.setAttribute("Clear");
                     this.infected--;
-                    this.healed++;
                 }
             }
         }
     }
 
     public static void main(String[] args) {
-        Propagation propagationDefault = new Propagation(0);
-        Propagation propagationRandom = new Propagation(1);
-        Propagation propagationBarabasi = new Propagation(2);
+        Propagation propagationDefault_1 = new Propagation(0, 1);
+        Propagation propagationDefault_2 = new Propagation(0, 2);
+        Propagation propagationDefault_3 = new Propagation(0, 3);
+
+        Propagation propagationRandom_1 = new Propagation(1, 1);
+        Propagation propagationRandom_2 = new Propagation(1, 2);
+        Propagation propagationRandom_3 = new Propagation(1, 3);
+
+        Propagation propagationBarabasi_1 = new Propagation(2, 1);
+        Propagation propagationBarabasi_2 = new Propagation(2, 2);
+        Propagation propagationBarabasi_3 = new Propagation(2, 3);
+
 
         /* Question 1 */
         System.out.println("\nQuestion 1\n");
         // Taux de propagation du virus -> Lambda = beta / mu
-        System.out.println("Taux de propagation du virus: " + propagationDefault.propagationVirus());
+        System.out.println("Taux de propagation du virus: " + propagationDefault_1.propagationVirus());
         // Seuil épidémique -> <k> / <k²>
-        System.out.println("Seul épidémique du réseau: " + propagationDefault.seuilEpidemique());
+        System.out.println("Seul épidémique du réseau: " + propagationDefault_1.seuilEpidemique());
         // Seuil épidémique d'un réseau aléatoire -> 1 / <k> + 1
-        System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom.seuilEpidemiqueRandom());
+        System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom_1.seuilEpidemiqueRandom());
 
         /* Question 2 */
         System.out.println("\nQuestion 2\n");
-        propagationDefault.propagation(84);
-        System.out.println("Infectés total: " + propagationDefault.getNbInfected() +"\n");
+        // Graphe de collaboration - Scénario 1
+        propagationDefault_1.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario1.dat");
+        System.out.println("Infectés total: " + propagationDefault_1.getNbInfected() +"\n");
+        // Graphe de collaboration - Scénario 2
+        propagationDefault_2.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario2.dat");
+        System.out.println("Infectés total: " + propagationDefault_2.getNbInfected() +"\n");
+        // Graphe de collaboration - Scénario 3
+        propagationDefault_3.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario3.dat");
+        System.out.println("Infectés total: " + propagationDefault_3.getNbInfected() +"\n");
 
-        propagationRandom.propagation(84);
-        System.out.println("Infectés total: " + propagationRandom.getNbInfected() +"\n");
+        // Graphe aléatoire - Scénario 1
+        propagationRandom_1.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario1.dat");
+        System.out.println("Infectés total: " + propagationRandom_1.getNbInfected() +"\n");
+        // Graphe aléatoire - Scénario 2
+        propagationRandom_2.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario2.dat");
+        System.out.println("Infectés total: " + propagationRandom_2.getNbInfected() +"\n");
+        // Graphe aléatoire - Scénario 3
+        propagationRandom_3.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario3.dat");
+        System.out.println("Infectés total: " + propagationRandom_3.getNbInfected() +"\n");
 
-        propagationBarabasi.propagation(84);
-        System.out.println("Infectés total: " + propagationBarabasi.getNbInfected() +"\n");
+        // Graphe Barabasi - Scénario 1
+        propagationBarabasi_1.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario1.dat");
+        System.out.println("Infectés total: " + propagationBarabasi_1.getNbInfected() +"\n");
+        // Graphe aléatoire - Scénario 2
+        propagationBarabasi_2.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario2.dat");
+        System.out.println("Infectés total: " + propagationBarabasi_2.getNbInfected() +"\n");
+        // Graphe Barabasi - Scénario 3
+        propagationBarabasi_3.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario3.dat");
+        System.out.println("Infectés total: " + propagationBarabasi_3.getNbInfected() +"\n");
     }
 }
