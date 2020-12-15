@@ -181,29 +181,29 @@ n'est pas connexe car il possède un degré moyen inférieur à 12.67. Le graphe
 
 Les trois graphes possèdent un coefficient de clustering similaire → environ 0.000021.
 
-Cependant, le coefficient de clustering d'un noeud est totalement différent pour chaque graphe:
+Cependant, le coefficient de clustering d'un nœud est totalement différent pour chaque graphe:
 - Collaboration → environ 0.63
 - Aléatoire → environ 0.000023
 - Barabasi → environ 0.00035
 
 * **Distribution des degrés**
 
-Voici la distribution des degrés d'un réseau aléatoire, puis d'un réseau de type Barabasi:
+Voici la distribution des degrés d'un réseau aléatoire, puis d'un réseau de type Barabasi-Albert:
 
 ![distributionDegresAllRandom](src/main/pictures/distributionDegresAll_Random.PNG)
 
 ![distributionDegresAllBarabasi](src/main/pictures/distributionDegresAll_Barabasi.PNG)
 
-On a précédemment vu que la distribution des dégrés de notre réseau de collaboration suivait la loi de Puissance.
-Ici, on peut remarquer que pour un réseau aléatoire, la distribution des dégrés suit parfaitement la loi de Poisson.
+On a précédemment vu que la distribution des degrés de notre réseau de collaboration suivait la loi de Puissance.
+Ici, on peut remarquer que pour un réseau aléatoire, la distribution des degrés suit parfaitement la loi de Poisson.
 
-Pour un réseau de type Barabasi, la distribution des degrés tend à suivre plus ou moins la loi de Puissance, comme pour 
+Pour un réseau de type Barabasi-Albert, la distribution des degrés tend à suivre plus ou moins la loi de Puissance, comme pour 
 notre réseau de collaboration.
 
 * **Distribution des distances**
 
 Les graphiques de la distribution des distances ont été affiché lors de la question précédente. Si nous allons les revoir, 
-nous pouvons remarquer que la distribution est plutot similaire entre un réseau aléatoire et un réseau de type barabasi.
+nous pouvons remarquer que la distribution est plutôt similaire entre un réseau aléatoire et un réseau de type barabasi.
 
 Pour notre réseau de collaboration, cette distribution est totalement différente et tend à suivre légèrement la loi de 
 Poisson.
@@ -250,4 +250,74 @@ Les calculs sont vérifiés pendant l'exécution du programme:
 ***
 
 ## Question 2. Pour chacun des trois scénarios, tracez l'évolution de la fraction d'infectés de la population non immunisée. Que peut-on conclure ?
+
+Voici le graphique représentant l'évolution du nombre d'infectés (en pourcentage) selon le nombre de jour (ici 84 jours) et le scénario:
+
+![propagationDefault_All_Percent](src/main/pictures/propagationDefault_All_Percent.PNG)
+
+## Que peut-on conclure ?
+
+L'immunisation aléatoire ne permet pas d'éradiquer le virus, mais permet simplement de ralentir sa propagation. 
+C'est tout de même une stratégie efficace puisqu'elle permet de ralentir le virus, mais ce n'est pas la meilleure.
+
+L'immunisation sélective quant à elle permet de vraiment entraver la progression du virus. En effet, malgré le fait qu'il
+y ait moins de personne immunisée que dans l'immunisation aléatoire, on peut remarquer que le virus à une progression 
+linéaire faible et va tendre à stagner au fil du temps. De plus, elle offre des résultats plus intéressants → quasiment
+deux fois moins d'infectés que l'immunisation aléatoire.
+
+***
+
+## Pour justifier l'efficacité de l'immunisation sélective, calculez le degré moyen des groupes 0 et 1. 
+
+Voici le degré moyen des groupes 0 et 1:
+
+![degreeMoyenGroupes](src/main/pictures/degreeMoyenGroupes.PNG)
+
+## Comment expliquez-vous la différence ?
+
+Le groupe 1 manifeste une présence supérieure de hubs car ils ont une probabilité élevée d'être immunisés par un de leurs
+voisins.
+
+***
+
+## Question 4. Calculez le seuil épidémique du réseau modifié pour chacune des deux stratégies d'immunisation et comparez avec le seuil épidémique du réseau initial.
+
+Voici le seuil épidémique du réseau pour chacune des deux stratégies d'immunisation:
+
+![seuilEpidemiqueScenarios](src/main/pictures/seuilEpidemiqueScenarios.PNG)
+
+Pour rappel, le seuil épidémique du réseau initial vaut 0.04598672853575812.
+
+On peut donc remarquer que le seuil épidémiquee du scénario 2 vaut la même chose environ que celui initial. Cela s'explique
+car la taille du réseau n'a pas d'impact sur le seuil épidémique.
+
+Cependant, le seuil épidémique du scénario est beaucoup plus grand, quasiment x3. On peut expliquer cela par le fait qu'un
+nombre conséquent de hubs ont été retirés du réseau par l'immunisation sélective, ce qui limite énormément la propagation 
+du virus (c'est l'effet hubs).
+
+***
+
+## Question 5. Comparez et commentez les résultats.
+
+Voici les résultas obtenus selon les différents scénarios pour un réseau aléatoire et un réseau de type Barabasi-Albert:
+
+![propagationRandom_All_Percent](src/main/pictures/propagationRandom_All_Percent.PNG)
+
+![propagationBarabasi_All_Percent](src/main/pictures/propagationBarabasi_All_Percent.PNG)
+
+Pour chacun des différents graphes, la solution initiale S1 où l'on ne fait rien pour arrêter la propagation nous amène 
+toujours au même résultat: entre 80 et 90% environ de la population contaminée en l'espace de quelques jours (entre 5 et
+20 selon le graphe). On remarque tout de même que la progression de la contamination pour ce scénario 1 pour un graphe 
+de type Barabasi est beaucoup plus rapide.
+
+Pour la solution S2, l'immunisation aléatoire, on observe un taux de contamination compris entre 30 et 40%. Cette solution
+est la meilleure pour un graphe qui serait aléatoire, et donne quasiment les mêmes résultats que la solution s3 pour un 
+graphe Barabasi.
+
+Enfin, pour la solution s3, l'immunisation sélective, on peut voir que c'est la meilleure solution pour notre graphe de
+collaboration, avec des résultats exceptionnels (environ 15% d'infectés seulement !).
+
+Quand au graphe de type Barabasi, comme dit précédemment, cette solution propose des résultats finaux ex aequo avec la 
+solution s2. Cependant, dans les trois graphes proposés, l'immunité sélective est celle qui permet de ralentir le plus 
+efficacement la propagation du virus (même si parfois le nombre d'infectés final est plus grand que d'autres solutions).
 
