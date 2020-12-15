@@ -4,7 +4,6 @@ import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +24,8 @@ public class Propagation {
             default -> System.exit(1);
         }
         this.infected = 0;
-        list0 = new ArrayList<>();
-        list1 = new ArrayList<>();
+        this.list0 = new ArrayList<>();
+        this.list1 = new ArrayList<>();
 
         for(Node n : getGraph())
             n.setAttribute("Immune", "False");
@@ -119,7 +118,7 @@ public class Propagation {
             // On rend ce nœud immunisé
             node.setAttribute("Immune" , "True");
             // Pour le calcul du degré moyen du groupe 0
-            list0.add(node.getDegree());
+            this.list0.add(node.getDegree());
             compteur++;
         }
     }
@@ -140,7 +139,7 @@ public class Propagation {
                 // On rend ce nœud immunisé
                 u.setAttribute("Immune" , "True");
                 // Pour le calcul du degré moyen du groupe 1
-                list1.add(u.getDegree());
+                this.list1.add(u.getDegree());
                 compteur++;
             }
         }
@@ -204,7 +203,7 @@ public class Propagation {
         Propagation propagationDefault_3 = new Propagation(0, 3);
         fin = System.currentTimeMillis();
         System.out.println("Creation terminée ! (" + (fin - start) + "ms)\n");
-/*
+
         System.out.println("Creation des 3 scénarios avec le graphe aléatoire...");
         start = System.currentTimeMillis();
         Propagation propagationRandom_1 = new Propagation(1, 1);
@@ -220,13 +219,17 @@ public class Propagation {
         Propagation propagationBarabasi_3 = new Propagation(2, 3);
         fin = System.currentTimeMillis();
         System.out.println("Creation terminée ! (" + (fin - start) + "ms)\n");
-*/
+
+        System.out.println();
+
         // Taux de propagation du virus -> Lambda = beta / mu
         System.out.println("Taux de propagation du virus: " + propagationDefault_1.propagationVirus());
         // Seuil épidémique -> <k> / <k²>
         System.out.println("Seuil épidémique du réseau: " + propagationDefault_1.seuilEpidemique());
         // Seuil épidémique d'un réseau aléatoire -> 1 / <k> + 1
-        //System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom_1.seuilEpidemiqueRandom());
+        System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom_1.seuilEpidemiqueRandom());
+
+        System.out.println();
 
         // Graphe de collaboration - Scénario 1
         propagationDefault_1.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario1.dat");
@@ -237,7 +240,17 @@ public class Propagation {
         // Graphe de collaboration - Scénario 3
         propagationDefault_3.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario3.dat");
         System.out.println("Infectés total: " + propagationDefault_3.getNbInfected() +"\n");
-/*
+
+        // Degré moyen des groupes 0 et 1
+        System.out.println("Groupe 0 - Degré moyen: " + propagationDefault_2.averageDegreeGroupe0());
+        System.out.println("Groupe 1 - Degré moyen: " + propagationDefault_3.averageDegreeGroupe1());
+        System.out.println();
+        // Seuil épidémique des scénarios 2 et 3
+        System.out.println("Scénario 2 - Seuil épidémique: " + propagationDefault_2.seuilEpidemiqueScenario2());
+        System.out.println("Scénario 3 - Seuil épidémique: " + propagationDefault_3.seuilEpidemiqueScenario3());
+
+        System.out.println();
+
         // Graphe aléatoire - Scénario 1
         propagationRandom_1.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario1.dat");
         System.out.println("Infectés total: " + propagationRandom_1.getNbInfected() +"\n");
@@ -248,6 +261,8 @@ public class Propagation {
         propagationRandom_3.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario3.dat");
         System.out.println("Infectés total: " + propagationRandom_3.getNbInfected() +"\n");
 
+        System.out.println();
+
         // Graphe Barabasi - Scénario 1
         propagationBarabasi_1.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario1.dat");
         System.out.println("Infectés total: " + propagationBarabasi_1.getNbInfected() +"\n");
@@ -257,11 +272,5 @@ public class Propagation {
         // Graphe Barabasi - Scénario 3
         propagationBarabasi_3.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario3.dat");
         System.out.println("Infectés total: " + propagationBarabasi_3.getNbInfected() +"\n");
- */
-        System.out.println("Groupe 0 - Degré moyen: " + propagationDefault_2.averageDegreeGroupe0());
-        System.out.println("Groupe 1 - Degré moyen: " + propagationDefault_3.averageDegreeGroupe1());
-        System.out.println();
-        System.out.println("Scénario 2 - Seuil épidémique: " + propagationDefault_2.seuilEpidemiqueScenario2());
-        System.out.println("Scénario 3 - Seuil épidémique: " + propagationDefault_3.seuilEpidemiqueScenario3());
     }
 }
