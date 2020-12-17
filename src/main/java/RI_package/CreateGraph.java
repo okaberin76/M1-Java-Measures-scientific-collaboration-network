@@ -8,13 +8,9 @@ import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.stream.file.FileSource;
 import org.graphstream.stream.file.FileSourceEdge;
-
 import java.io.IOException;
 
 public class CreateGraph {
-    /**
-     * Construit le graphe de collaboration
-     */
     public static Graph defaultGraph( ) {
         Graph graph = new DefaultGraph("Default");
         FileSource fs = new FileSourceEdge(true);
@@ -30,9 +26,6 @@ public class CreateGraph {
         return graph;
     }
 
-    /**
-     * Construit un graphe aléatoire ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
-     */
     public static Graph randomGraph( ) {
         Graph graph = new SingleGraph("Random");
         Generator gen = new RandomGenerator(6.62208890914917);
@@ -44,9 +37,6 @@ public class CreateGraph {
         return graph;
     }
 
-    /**
-     * Construit un graphe de type Barabasi-Albert ayant le même nombre de nœuds et degré moyen que le graphe de collaboration
-     */
     public static Graph barabasiGraph( ) {
         Graph graph = new SingleGraph("Barabasi");
         Generator gen = new BarabasiAlbertGenerator((int) 6.62208890914917);
@@ -57,5 +47,4 @@ public class CreateGraph {
         gen.end();
         return graph;
     }
-
 }

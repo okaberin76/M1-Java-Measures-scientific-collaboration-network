@@ -10,7 +10,9 @@ import java.util.List;
 public class Propagation {
     private Graph graph;
     private int infected;
+    private final String pathFile = "./src/main/files/";
     private String nameFile;
+    private final String extensionFile = ".dat";
     private final List <Integer> list0;
     private final List <Integer> list1;
     private final double beta = (double) 1 / 7;
@@ -39,11 +41,19 @@ public class Propagation {
     }
 
     public String getNameFile() {
-        return nameFile;
+        return this.nameFile;
     }
 
     public void setNameFile(String nameFile) {
         this.nameFile = nameFile;
+    }
+
+    public String getPathFile() {
+        return this.pathFile;
+    }
+
+    public String getExtensionFile() {
+        return this.extensionFile;
     }
 
     public Graph getGraph() {
@@ -52,6 +62,10 @@ public class Propagation {
 
     public int getNode() {
         return getGraph().getNodeCount();
+    }
+
+    public int getNbInfected() {
+        return this.infected;
     }
 
     public double averageDegree() {
@@ -107,18 +121,13 @@ public class Propagation {
         return 1 / (averageDegree() + 1);
     }
 
-    public int getNbInfected() {
-        return this.infected;
-    }
-
     // Simule le scénario 2 → 50% des nœuds deviennent immunisés, tirage effectué aléatoirement
     public void scenario2() {
         int compteur = 0;
         // On prend 50% des nœuds
         while(compteur < getNode() / 2) {
             // On choisi un nœud aléatoirement
-            int random = (int) (Math.random() * getNode());
-            Node node = getGraph().getNode(random);
+            Node node = getGraph().getNode((int) (Math.random() * getNode()));
             // On rend ce nœud immunisé au virus
             if(node.getAttribute("Immune").equals("False")) {
                 node.setAttribute("Immune" , "True");
@@ -135,15 +144,14 @@ public class Propagation {
         // On prend 50% des nœuds
         while(compteur < getNode() / 2) {
             // On choisi un nœud aléatoirement
-            int random = (int) (Math.random() * getNode());
-            Node node = getGraph().getNode(random);
+            Node node = getGraph().getNode((int) (Math.random() * getNode()));
             // On choisi une arête aléatoire du nœud trouvé
             Edge edge = Toolkit.randomEdge(node);
             if (edge != null) {
                 // On récupère le nœud au bout de l'arête
                 Node u = edge.getOpposite(node);
-                // On rend ce nœud immunisé au virus
-                if(node.getAttribute("Immune").equals("False")) {
+                if (node.getAttribute("Immune").equals("False")) {
+                    // On rend ce nœud immunisé au virus
                     u.setAttribute("Immune" , "True");
                     // Pour le calcul du degré moyen du groupe 1
                     this.list1.add(u.getDegree());
@@ -154,7 +162,7 @@ public class Propagation {
     }
 
     // Simule la propagation du virus dans le graphe
-    public void propagation(int dayMax, String nameFile, String nameFile2) {
+    public void propagation(int dayMax, String nameFile) {
         // Noeud source infecté et non immunisé
         Node infecte0 = getGraph().getNode(0);
         infecte0.setAttribute("Immune", "False");
@@ -172,10 +180,10 @@ public class Propagation {
             stringBuilder.append(String.format("%d%s%d%s", i, " ", getNbInfected(), "\n"));
             stringBuilderPercent.append(String.format("%d%s%f%s", i, " ", (double) getNbInfected() / getGraph().getNodeCount(), "\n"));
         }
-        setNameFile(nameFile);
+        setNameFile(getPathFile() + nameFile + getExtensionFile());
         Utils.saveFile(getNameFile(), stringBuilder.toString());
 
-        setNameFile(nameFile2);
+        setNameFile(getPathFile() + nameFile + "_Percent" + getExtensionFile());
         Utils.saveFile(getNameFile(), stringBuilderPercent.toString());
     }
 
@@ -190,7 +198,7 @@ public class Propagation {
                     // On récupère le nœud u
                     Node node = u.getOpposite(v);
                     // Si ce nœud n'est pas déjà infecté ni immunisé
-                    if (!node.hasAttribute("Infected") && node.getAttribute("Immune").equals("False")) {
+                    if ((!node.hasAttribute("Infected")) && node.getAttribute("Immune").equals("False")) {
                         // Nombre aléatoire entre 0 et 1
                         if(Math.random() < this.beta) {
                             // v envoie un mail à u aujourd'hui et l'infecte
@@ -203,7 +211,6 @@ public class Propagation {
                 if(Math.random() < this.mu) {
                     // Anti virus actif → le nœud est soigné
                     v.removeAttribute("Infected");
-                    v.setAttribute("Clear");
                     this.infected--;
                 }
             }
@@ -211,20 +218,19 @@ public class Propagation {
     }
 
     public static void main(String[] args) {
+        /*
         Propagation propagationDefault_1 = new Propagation(0, 1);
-
-        System.out.println(propagationDefault_1.seuilEpidemique());
-        /*Propagation propagationDefault_2 = new Propagation(0, 2);
+        Propagation propagationDefault_2 = new Propagation(0, 2);
         Propagation propagationDefault_3 = new Propagation(0, 3);
 
         Propagation propagationRandom_1 = new Propagation(1, 1);
         Propagation propagationRandom_2 = new Propagation(1, 2);
         Propagation propagationRandom_3 = new Propagation(1, 3);
-
+*/
         Propagation propagationBarabasi_1 = new Propagation(2, 1);
         Propagation propagationBarabasi_2 = new Propagation(2, 2);
         Propagation propagationBarabasi_3 = new Propagation(2, 3);
-
+/*
         System.out.println();
 
         // Taux de propagation du virus → Lambda = beta / mu
@@ -237,14 +243,11 @@ public class Propagation {
         System.out.println();
 
         // Graphe de collaboration - Scénario 1
-        propagationDefault_1.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario1.dat",
-                "./src/main/files/fichierPropagationDefault_Scenario1_Percent.dat");
+        propagationDefault_1.propagation(84, "fichierPropagationDefault_Scenario1");
         // Graphe de collaboration - Scénario 2
-        propagationDefault_2.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario2.dat",
-                "./src/main/files/fichierPropagationDefault_Scenario2_Percent.dat");
+        propagationDefault_2.propagation(84, "fichierPropagationDefault_Scenario2");
         // Graphe de collaboration - Scénario 3
-        propagationDefault_3.propagation(84, "./src/main/files/fichierPropagationDefault_Scenario3.dat",
-                "./src/main/files/fichierPropagationDefault_Scenario3_Percent.dat");
+        propagationDefault_3.propagation(84, "fichierPropagationDefault_Scenario3");
 
         // Degré moyen des groupes 0 et 1
         System.out.println("Groupe 0 - Degré moyen: " + propagationDefault_2.averageDegreeGroupe0());
@@ -257,26 +260,19 @@ public class Propagation {
         System.out.println();
 
         // Graphe aléatoire - Scénario 1
-        propagationRandom_1.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario1.dat",
-                "./src/main/files/fichierPropagationRandom_Scenario1_Percent.dat");
+        propagationRandom_1.propagation(84, "fichierPropagationRandom_Scenario1");
         // Graphe aléatoire - Scénario 2
-        propagationRandom_2.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario2.dat",
-                "./src/main/files/fichierPropagationRandom_Scenario2_Percent.dat");
+        propagationRandom_2.propagation(84, "fichierPropagationRandom_Scenario2");
         // Graphe aléatoire - Scénario 3
-        propagationRandom_3.propagation(84, "./src/main/files/fichierPropagationRandom_Scenario3.dat",
-                "./src/main/files/fichierPropagationRandom_Scenario3_Percent.dat");
+        propagationRandom_3.propagation(84, "fichierPropagationRandom_Scenario3");
 
         System.out.println();
-
+*/
         // Graphe Barabasi - Scénario 1
-        propagationBarabasi_1.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario1.dat",
-                "./src/main/files/fichierPropagationBarabasi_Scenario1_Percent.dat");
+        propagationBarabasi_1.propagation(84, "fichierPropagationBarabasi_Scenario1");
         // Graphe aléatoire - Scénario 2
-        propagationBarabasi_2.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario2.dat",
-                "./src/main/files/fichierPropagationBarabasi_Scenario2_Percent.dat");
+        propagationBarabasi_2.propagation(84, "fichierPropagationBarabasi_Scenario2");
         // Graphe Barabasi - Scénario 3
-        propagationBarabasi_3.propagation(84, "./src/main/files/fichierPropagationBarabasi_Scenario3.dat",
-                "./src/main/files/fichierPropagationBarabasi_Scenario3_Percent.dat");
-         */
+        propagationBarabasi_3.propagation(84, "fichierPropagationBarabasi_Scenario3");
     }
 }
