@@ -219,6 +219,9 @@ Poisson.
 Ce TP est la suite directe du précédent sur les mesures de réseaux d'intéraction. Ici, on va s'intéresser à la propagation
 d'un virus dans les différents types de réseaux étudiés (SNAP, aléatoire et Barasi).
 
+Pour ce TP, la construction et la propagation du virus dans un graphe Barabasi-Albert prend énormément de temps (environ
+15 minutes pour les 3 scénarios), contrairement aux deux autres types de graphe.
+
 ***
 
 ## Question 1. Quel est le taux de propagation du virus ? Quel est le seuil épidémique du réseau ? 
@@ -231,9 +234,10 @@ On obtient 2.0 comme résultat.
 
 * Le seuil épidémique du réseau se calcule de la manière suivante:
 
-![seuilEpidemiqueDefault](src/main/pictures/seuilEpidemiqueDefault.PNG) où < k > = 6.62208890914917 et < k² > = 144.
+![seuilEpidemiqueDefault](src/main/pictures/seuilEpidemiqueDefault.PNG) où < k > = 6.62208890914917 et < k² > = 
+144.00627601867038.
 
-On obtient 0.04598672853575812.
+On obtient 0.04598472436222584.
 
 ## Comparez avec le seuil théorique d'un réseau aléatoire du même degré moyen.
 
@@ -241,7 +245,7 @@ Le seuil théorique d'un réseau aléatoire se calcule comme ceci:
 
 ![seuilEpidemiqueRandom](src/main/pictures/seuilEpidemiqueRandom.PNG)
 
-On obtient le résultat suivant: 0.13113826580493956.
+On obtient le résultat suivant: 0.13101485295882503.
 
 Les calculs sont vérifiés pendant l'exécution du programme:
 
@@ -251,18 +255,21 @@ Les calculs sont vérifiés pendant l'exécution du programme:
 
 ## Question 2. Pour chacun des trois scénarios, tracez l'évolution de la fraction d'infectés de la population non immunisée. Que peut-on conclure ?
 
-Voici le graphique représentant l'évolution du nombre d'infectés (en pourcentage) selon le nombre de jour (ici 84 jours) et le scénario:
+Voici le graphique représentant l'évolution du nombre d'infectés (en pourcentage) selon le nombre de jours (ici 84 jours)
+et le scénario:
 
 ![propagationDefault_All_Percent](src/main/pictures/propagationDefault_All_Percent.PNG)
 
 ## Que peut-on conclure ?
 
 L'immunisation aléatoire ne permet pas d'éradiquer le virus, mais permet simplement de ralentir sa propagation. 
-C'est tout de même une stratégie efficace puisqu'elle permet de ralentir le virus, mais ce n'est pas la meilleure.
+C'est tout de même une stratégie efficace puisqu'elle permet de ralentir le virus et de contenir le virus jusqu'à un certain
+point, et donc de diminuer quand même de manière significative le nombre total d'infectés, mais ce n'est pas la meilleure.
 
-L'immunisation sélective quant à elle permet de vraiment entraver la progression du virus. En effet, malgré le fait qu'il
-y ait moins de personne immunisée que dans l'immunisation aléatoire, on peut remarquer que le virus à une progression 
-linéaire faible et va tendre à stagner au fil du temps. De plus, elle offre des résultats plus intéressants → quasiment
+L'immunisation sélective quant à elle permet de vraiment entraver la progression du virus (on remarque sur le graphique
+que le début de la propagation s'effectue plus tard que dans les autres scénarios). En effet, malgré le fait qu'il
+y ait moins de personnes immunisées que dans l'immunisation aléatoire, on peut remarquer que le virus à une progression 
+relativement faible et va tendre à stagner au fil du temps. De plus, elle offre des résultats plus intéressants → quasiment
 deux fois moins d'infectés que l'immunisation aléatoire.
 
 ***
@@ -275,6 +282,9 @@ Voici le degré moyen des groupes 0 et 1:
 
 ## Comment expliquez-vous la différence ?
 
+Ces groupes représentent ici le nombre de personnes immunisées (50% de personnes aléatoirement immunisées pour le groupe
+0 et 50% de personnes aléatoires ont un de leur voisin immunisé pour le groupe 1). 
+
 Le groupe 1 manifeste une présence supérieure de hubs car ils ont une probabilité élevée d'être immunisés par un de leurs
 voisins.
 
@@ -286,10 +296,10 @@ Voici le seuil épidémique du réseau pour chacune des deux stratégies d'immun
 
 ![seuilEpidemiqueScenarios](src/main/pictures/seuilEpidemiqueScenarios.PNG)
 
-Pour rappel, le seuil épidémique du réseau initial vaut 0.04598672853575812.
+Pour rappel, le seuil épidémique du réseau initial vaut 0.04598472436222584.
 
-On peut donc remarquer que le seuil épidémiquee du scénario 2 vaut la même chose environ que celui initial. Cela s'explique
-car la taille du réseau n'a pas d'impact sur le seuil épidémique.
+On peut donc remarquer que le seuil épidémique du scénario 2 vaut environ la même chose que celui du scénario initial. 
+Cela s'explique par la taille du réseau qui n'a pas d'impact sur le seuil épidémique.
 
 Cependant, le seuil épidémique du scénario est beaucoup plus grand, quasiment x3. On peut expliquer cela par le fait qu'un
 nombre conséquent de hubs ont été retirés du réseau par l'immunisation sélective, ce qui limite énormément la propagation 

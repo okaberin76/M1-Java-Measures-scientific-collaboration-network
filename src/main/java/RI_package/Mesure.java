@@ -11,14 +11,11 @@ public class Mesure {
     private Graph graph;
     private String nameFile;
 
-    /**
-     * @param choice un entier qui défini le type de graphe voulu
-     */
     public Mesure(int choice) {
         switch (choice) {
-            case 0 -> this.graph = CreateGraph.defaultGraph();
-            case 1 -> this.graph = CreateGraph.randomGraph();
-            case 2 -> this.graph = CreateGraph.barabasiGraph();
+            case 1 -> this.graph = CreateGraph.defaultGraph();
+            case 2 -> this.graph = CreateGraph.randomGraph();
+            case 3 -> this.graph = CreateGraph.barabasiGraph();
             default -> System.exit(1);
         }
     }
@@ -134,11 +131,11 @@ public class Mesure {
         // Exercice 6 -> environ 10 min à run
         System.out.println("Exercice 6\n");
         // Graphe par défaut, c'est à dire celui du fichier com-dblp.ungraph.txt
-        Mesure mesure = new Mesure(0);
+        Mesure mesure = new Mesure(1);
         // Graphe aléatoire
-        Mesure mesure2 = new Mesure(1);
+        Mesure mesure2 = new Mesure(2);
         // Graphe Barabasi-Albert
-        Mesure mesure3 = new Mesure(2);
+        Mesure mesure3 = new Mesure(3);
         // nœuds
         System.out.println("Nombre de nœuds:\n" + "Default -> " + mesure.getNode() + "\nRandom -> " + mesure2.getNode() + "\nBarabasi -> " + mesure3.getNode());
         // Liens

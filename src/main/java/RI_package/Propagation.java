@@ -10,9 +10,7 @@ import java.util.List;
 public class Propagation {
     private Graph graph;
     private int infected;
-    private final String pathFile = "./src/main/files/";
     private String nameFile;
-    private final String extensionFile = ".dat";
     private final List <Integer> list0;
     private final List <Integer> list1;
     private final double beta = (double) 1 / 7;
@@ -20,9 +18,9 @@ public class Propagation {
 
     public Propagation(int choice, int scenario) {
         switch (choice) {
-            case 0 -> this.graph = CreateGraph.defaultGraph();
-            case 1 -> this.graph = CreateGraph.randomGraph();
-            case 2 -> this.graph = CreateGraph.barabasiGraph();
+            case 1 -> this.graph = CreateGraph.defaultGraph();
+            case 2 -> this.graph = CreateGraph.randomGraph();
+            case 3 -> this.graph = CreateGraph.barabasiGraph();
             default -> System.exit(1);
         }
         this.infected = 0;
@@ -40,27 +38,27 @@ public class Propagation {
         }
     }
 
-    public String getNameFile() {
+    private String getNameFile() {
         return this.nameFile;
     }
 
-    public void setNameFile(String nameFile) {
+    private void setNameFile(String nameFile) {
         this.nameFile = nameFile;
     }
 
-    public String getPathFile() {
-        return this.pathFile;
+    private String getPathFile() {
+        return "./src/main/files/";
     }
 
-    public String getExtensionFile() {
-        return this.extensionFile;
+    private String getExtensionFile() {
+        return ".dat";
     }
 
-    public Graph getGraph() {
+    private Graph getGraph() {
         return this.graph;
     }
 
-    public int getNode() {
+    private int getNode() {
         return getGraph().getNodeCount();
     }
 
@@ -68,7 +66,7 @@ public class Propagation {
         return this.infected;
     }
 
-    public double averageDegree() {
+    private double averageDegree() {
         return Toolkit.averageDegree(getGraph());
     }
 
@@ -78,7 +76,7 @@ public class Propagation {
     }
 
     // Calcule <k²>
-    public double moyenneCarreDegres() {
+    private double moyenneCarreDegres() {
         double sumDegree = 0;
         for(Node n : getGraph())
             sumDegree += Math.pow(n.getDegree() , 2);
@@ -122,7 +120,7 @@ public class Propagation {
     }
 
     // Simule le scénario 2 → 50% des nœuds deviennent immunisés, tirage effectué aléatoirement
-    public void scenario2() {
+    private void scenario2() {
         int compteur = 0;
         // On prend 50% des nœuds
         while(compteur < getNode() / 2) {
@@ -139,7 +137,7 @@ public class Propagation {
     }
 
     // Simule le scénario 3 → 50% des nœuds ont une de leur arête adjacente immunisée
-    public void scenario3() {
+    private void scenario3() {
         int compteur = 0;
         // On prend 50% des nœuds
         while(compteur < getNode() / 2) {
@@ -156,6 +154,36 @@ public class Propagation {
                     // Pour le calcul du degré moyen du groupe 1
                     this.list1.add(u.getDegree());
                     compteur++;
+                }
+            }
+        }
+    }
+
+    // Simule l'envoie d'un mail contenant un virus
+    private void infection() {
+        // On parcours l'ensemble des nœuds du graphe
+        for(Node v : getGraph()) {
+            // Pour chaque nœud v infecté
+            if(v.hasAttribute("Infected")) {
+                // Pour chaque voisin u de v
+                for(Edge u : v) {
+                    // On récupère le nœud u
+                    Node node = u.getOpposite(v);
+                    // Si ce nœud n'est pas déjà infecté ni immunisé
+                    if ((!node.hasAttribute("Infected")) && node.getAttribute("Immune").equals("False")) {
+                        // Nombre aléatoire entre 0 et 1
+                        if(Math.random() < this.beta) {
+                            // v envoie un mail à u aujourd'hui et l'infecte
+                            node.setAttribute("Infected");
+                            this.infected++;
+                        }
+                    }
+                }
+                // Nombre aléatoire entre 0 et 1
+                if(Math.random() < this.mu) {
+                    // Anti virus actif → le nœud est soigné
+                    v.removeAttribute("Infected");
+                    this.infected--;
                 }
             }
         }
@@ -187,50 +215,19 @@ public class Propagation {
         Utils.saveFile(getNameFile(), stringBuilderPercent.toString());
     }
 
-    // Simule l'envoie d'un mail contenant un virus
-    public void infection() {
-        // On parcours l'ensemble des nœuds du graphe
-        for(Node v : getGraph()) {
-            // Pour chaque nœud v infecté
-            if(v.hasAttribute("Infected")) {
-                // Pour chaque voisin u de v
-                for(Edge u : v) {
-                    // On récupère le nœud u
-                    Node node = u.getOpposite(v);
-                    // Si ce nœud n'est pas déjà infecté ni immunisé
-                    if ((!node.hasAttribute("Infected")) && node.getAttribute("Immune").equals("False")) {
-                        // Nombre aléatoire entre 0 et 1
-                        if(Math.random() < this.beta) {
-                            // v envoie un mail à u aujourd'hui et l'infecte
-                            node.setAttribute("Infected");
-                            this.infected++;
-                        }
-                    }
-                }
-                // Nombre aléatoire entre 0 et 1
-                if(Math.random() < this.mu) {
-                    // Anti virus actif → le nœud est soigné
-                    v.removeAttribute("Infected");
-                    this.infected--;
-                }
-            }
-        }
-    }
-
     public static void main(String[] args) {
-        /*
-        Propagation propagationDefault_1 = new Propagation(0, 1);
-        Propagation propagationDefault_2 = new Propagation(0, 2);
-        Propagation propagationDefault_3 = new Propagation(0, 3);
+        Propagation propagationDefault_1 = new Propagation(1, 1);
+        Propagation propagationDefault_2 = new Propagation(1, 2);
+        Propagation propagationDefault_3 = new Propagation(1, 3);
 
-        Propagation propagationRandom_1 = new Propagation(1, 1);
-        Propagation propagationRandom_2 = new Propagation(1, 2);
-        Propagation propagationRandom_3 = new Propagation(1, 3);
-*/
-        Propagation propagationBarabasi_1 = new Propagation(2, 1);
-        Propagation propagationBarabasi_2 = new Propagation(2, 2);
-        Propagation propagationBarabasi_3 = new Propagation(2, 3);
-/*
+        Propagation propagationRandom_1 = new Propagation(2, 1);
+        Propagation propagationRandom_2 = new Propagation(2, 2);
+        Propagation propagationRandom_3 = new Propagation(2, 3);
+
+        Propagation propagationBarabasi_1 = new Propagation(3, 1);
+        Propagation propagationBarabasi_2 = new Propagation(3, 2);
+        Propagation propagationBarabasi_3 = new Propagation(3, 3);
+
         System.out.println();
 
         // Taux de propagation du virus → Lambda = beta / mu
@@ -267,7 +264,7 @@ public class Propagation {
         propagationRandom_3.propagation(84, "fichierPropagationRandom_Scenario3");
 
         System.out.println();
-*/
+
         // Graphe Barabasi - Scénario 1
         propagationBarabasi_1.propagation(84, "fichierPropagationBarabasi_Scenario1");
         // Graphe aléatoire - Scénario 2

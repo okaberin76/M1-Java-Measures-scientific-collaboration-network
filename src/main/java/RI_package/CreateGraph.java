@@ -39,6 +39,7 @@ public class CreateGraph {
 
     public static Graph barabasiGraph( ) {
         Graph graph = new SingleGraph("Barabasi");
+        // Cast de int qui arrondi à 6
         Generator gen = new BarabasiAlbertGenerator((int) 6.62208890914917);
         gen.addSink(graph);
         gen.begin();
