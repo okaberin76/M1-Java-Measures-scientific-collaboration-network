@@ -148,13 +148,11 @@ public class Propagation {
             if (edge != null) {
                 // On récupère le nœud au bout de l'arête
                 Node u = edge.getOpposite(node);
-                if (node.getAttribute("Immune").equals("False")) {
-                    // On rend ce nœud immunisé au virus
-                    u.setAttribute("Immune" , "True");
-                    // Pour le calcul du degré moyen du groupe 1
-                    this.list1.add(u.getDegree());
-                    compteur++;
-                }
+                // On rend ce nœud immunisé au virus
+                u.setAttribute("Immune" , "True");
+                // Pour le calcul du degré moyen du groupe 1
+                this.list1.add(u.getDegree());
+                compteur++;
             }
         }
     }
@@ -235,7 +233,7 @@ public class Propagation {
         // Seuil épidémique → <k> / <k²>
         System.out.println("Seuil épidémique du réseau: " + propagationDefault_1.seuilEpidemique());
         // Seuil épidémique d'un réseau aléatoire → 1 / <k> + 1
-        System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom_1.seuilEpidemiqueRandom());
+        //System.out.println("Seul épidémique d'un réseau aléatoire: " + propagationRandom_1.seuilEpidemiqueRandom());
 
         System.out.println();
 

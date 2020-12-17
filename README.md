@@ -263,7 +263,7 @@ et le scénario:
 ## Que peut-on conclure ?
 
 L'immunisation aléatoire ne permet pas d'éradiquer le virus, mais permet simplement de ralentir sa propagation. 
-C'est tout de même une stratégie efficace puisqu'elle permet de ralentir le virus et de contenir le virus jusqu'à un certain
+C'est tout de même une stratégie efficace puisqu'elle permet de ralentir le virus et de le contenir jusqu'à un certain
 point, et donc de diminuer quand même de manière significative le nombre total d'infectés, mais ce n'est pas la meilleure.
 
 L'immunisation sélective quant à elle permet de vraiment entraver la progression du virus (on remarque sur le graphique
@@ -285,8 +285,7 @@ Voici le degré moyen des groupes 0 et 1:
 Ces groupes représentent ici le nombre de personnes immunisées (50% de personnes aléatoirement immunisées pour le groupe
 0 et 50% de personnes aléatoires ont un de leur voisin immunisé pour le groupe 1). 
 
-Le groupe 1 manifeste une présence supérieure de hubs car ils ont une probabilité élevée d'être immunisés par un de leurs
-voisins.
+La différence de degré moyen est presque x3 entre le groupe 0 et le groupe 1. 
 
 ***
 
@@ -296,20 +295,23 @@ Voici le seuil épidémique du réseau pour chacune des deux stratégies d'immun
 
 ![seuilEpidemiqueScenarios](src/main/pictures/seuilEpidemiqueScenarios.PNG)
 
-Pour rappel, le seuil épidémique du réseau initial vaut 0.04598472436222584.
+Pour rappel, le seuil épidémique du réseau initial vaut 0.04598472436222584, le taux de propogation vaut 2.0 et plus le 
+seuil épidémique sera grand et proche du taux de propagation, plus l'infection aura du mal à se répandre.
 
-On peut donc remarquer que le seuil épidémique du scénario 2 vaut environ la même chose que celui du scénario initial. 
-Cela s'explique par la taille du réseau qui n'a pas d'impact sur le seuil épidémique.
+On remarque que le seuil épidémique du scénario 2 vaut environ la même chose que celui du scénario initial. 
+Cela s'explique par le fait qu'il ne dépend pas du réseau et se calcule avec le degré moyen. Le degré moyen du graphe 
+initial étant de 6.622 environ, celui du groupe 1 est d'environ 6.64. Ces deux graphes ont donc un seuil épidémique similaire.
 
-Cependant, le seuil épidémique du scénario est beaucoup plus grand, quasiment x3. On peut expliquer cela par le fait qu'un
-nombre conséquent de hubs ont été retirés du réseau par l'immunisation sélective, ce qui limite énormément la propagation 
-du virus (c'est l'effet hubs).
+Cependant, le seuil épidémique du scénario 3 est beaucoup plus grand (quasiment x3). On peut expliquer cela par le fait 
+qu'un nombre conséquent de hubs ont été retirés du réseau par l'immunisation sélective, ce qui limite énormément la 
+propagation du virus (c'est l'effet hubs).
+
 
 ***
 
 ## Question 5. Comparez et commentez les résultats.
 
-Voici les résultas obtenus selon les différents scénarios pour un réseau aléatoire et un réseau de type Barabasi-Albert:
+Voici les résultats obtenus selon les différents scénarios pour un réseau aléatoire et un réseau de type Barabasi-Albert:
 
 ![propagationRandom_All_Percent](src/main/pictures/propagationRandom_All_Percent.PNG)
 
@@ -317,17 +319,16 @@ Voici les résultas obtenus selon les différents scénarios pour un réseau al�
 
 Pour chacun des différents graphes, la solution initiale S1 où l'on ne fait rien pour arrêter la propagation nous amène 
 toujours au même résultat: entre 80 et 90% environ de la population contaminée en l'espace de quelques jours (entre 5 et
-20 selon le graphe). On remarque tout de même que la progression de la contamination pour ce scénario 1 pour un graphe 
-de type Barabasi est beaucoup plus rapide.
+15 selon le graphe). On remarque tout de même que la progression de la contamination pour ce scénario 1 pour un graphe 
+de type Random est moins rapide que celle des deux autres.
 
-Pour la solution S2, l'immunisation aléatoire, on observe un taux de contamination compris entre 30 et 40%. Cette solution
+Pour la solution S2, l'immunisation aléatoire, on observe un taux de contamination compris entre 25 et 40%. Cette solution
 est la meilleure pour un graphe qui serait aléatoire, et donne quasiment les mêmes résultats que la solution s3 pour un 
 graphe Barabasi.
 
 Enfin, pour la solution s3, l'immunisation sélective, on peut voir que c'est la meilleure solution pour notre graphe de
 collaboration, avec des résultats exceptionnels (environ 15% d'infectés seulement !).
 
-Quand au graphe de type Barabasi, comme dit précédemment, cette solution propose des résultats finaux ex aequo avec la 
+Quant au graphe de type Barabasi, comme dit précédemment, cette solution propose des résultats finaux ex aequo avec la 
 solution s2. Cependant, dans les trois graphes proposés, l'immunité sélective est celle qui permet de ralentir le plus 
 efficacement la propagation du virus (même si parfois le nombre d'infectés final est plus grand que d'autres solutions).
-
