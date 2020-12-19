@@ -280,12 +280,10 @@ Voici le degré moyen des groupes 0 et 1:
 
 ![degreeMoyenGroupes](src/main/pictures/degreeMoyenGroupes.PNG)
 
-## Comment expliquez-vous la différence ?
 
 Ces groupes représentent ici le nombre de personnes immunisées (50% de personnes aléatoirement immunisées pour le groupe
-0 et 50% de personnes aléatoires ont un de leur voisin immunisé pour le groupe 1). 
-
-La différence de degré moyen est presque x3 entre le groupe 0 et le groupe 1. 
+0 et 50% de personnes aléatoires ont un de leur voisin immunisé pour le groupe 1). La différence de degré moyen est
+presque de 3 entre le groupe 0 et le groupe 1. 
 
 ***
 
@@ -302,9 +300,9 @@ On remarque que le seuil épidémique du scénario 2 vaut environ la même chose
 Cela s'explique par le fait qu'il ne dépend pas du réseau et se calcule avec le degré moyen. Le degré moyen du graphe 
 initial étant de 6.622 environ, celui du groupe 1 est d'environ 6.64. Ces deux graphes ont donc un seuil épidémique similaire.
 
-Cependant, le seuil épidémique du scénario 3 est beaucoup plus grand (quasiment x3). On peut expliquer cela par le fait 
-qu'un nombre conséquent de hubs ont été retirés du réseau par l'immunisation sélective, ce qui limite énormément la 
-propagation du virus (c'est l'effet hubs).
+Cependant, le seuil épidémique du scénario 3 est beaucoup plus grand (quasiment x3). On peut expliquer cela par le fait
+que le degré moyen est lui aussi trois fois plus grand, et qu'un nombre conséquent de hubs ont été retirés du réseau par
+l'immunisation sélective, ce qui limite énormément la propagation du virus (c'est l'effet hubs).
 
 
 ***
